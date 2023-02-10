@@ -13,6 +13,20 @@
         android:theme="@style/Theme.QuranApp"
         tools:targetApi="31">
         <activity
+            android:name=".AyahRecycleView"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ayah_row_display"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".surah_row_display"
             android:exported="false">
             <meta-data

@@ -92,9 +92,50 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 Surah surahObj = new Surah(id, into, eng_name, nazool, urdu_name);
                 surah.add(surahObj);
+//                Log.d(eng_name, "getAllSurah: ");
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
+
+        surah.remove(surah.size()-1);
         return surah;
+    }
+
+    public ArrayList<Ayah> getAllAyah(int surahId) {
+        ArrayList<Ayah> ayah = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from " + T_AYAH +
+                " Where SuraID = '" + Integer.toString(surahId)
+                + "'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                int ayatId = cursor.getInt(0);
+                int surahID = cursor.getInt(1);
+                int ayaNo = cursor.getInt(2);
+                String arabic = cursor.getString(3);
+                String fateh = cursor.getString(4);
+                String mehmood = cursor.getString(5);
+                String mohsin = cursor.getString(6);
+                String mufti = cursor.getString(7);
+                int rakuId = cursor.getInt(8);
+                int prakuId = cursor.getInt(9);
+                int paraId = cursor.getInt(10);
+
+                Ayah ayaObj = new Ayah(ayatId, surahID, ayaNo, arabic, fateh, mehmood
+                                    , mohsin, mufti, rakuId, prakuId, paraId);
+
+                ayah.add(ayaObj);
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return ayah;
     }
 }

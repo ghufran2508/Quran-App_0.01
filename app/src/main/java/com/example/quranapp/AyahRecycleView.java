@@ -4,33 +4,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    ArrayList<Surah> surah;
+public class AyahRecycleView extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    ArrayList<Ayah> ayah;
+    DBHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ayah_recycle_view);
 
-        DBHandler db = new DBHandler(this);
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("ID", 1);
 
-        surah = new ArrayList<>();
-        surah.addAll(db.getAllSurah());
+        db = new DBHandler(this);
+        ayah = new ArrayList<>();
+        ayah.addAll(db.getAllAyah(id));
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.ayah_recycle);
         recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(MainActivity.this);
-
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RVAdapter(surah);
+        adapter = new RVAAdapter(ayah);
         recyclerView.setAdapter(adapter);
     }
 }
